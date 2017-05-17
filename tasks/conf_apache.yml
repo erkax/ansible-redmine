@@ -4,12 +4,11 @@
          executable="/bin/bash"
   when: redmine_app_dir_stat.stat.isdir is not defined
 
-- name: define Passenger user as redmine 
+- name: define Passenger user as redmine
   lineinfile: dest=/etc/httpd/conf.modules.d/100-passenger_conf
               line="PassengerUser redmine"
   when: redmine_app_dir_stat.stat.isdir is not defined
-- name: define Passenger group as redmine 
+- name: define Passenger group as redmine
   lineinfile: dest=/etc/httpd/conf.modules.d/100-passenger_conf
               line="PassengerGroup redmine"
   when: redmine_app_dir_stat.stat.isdir is not defined
-

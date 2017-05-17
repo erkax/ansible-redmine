@@ -1,43 +1,43 @@
 ################################################################################
 - name: change owner of redmine directory
-  file: path={{redmine_app_dir}} 
-        owner=root 
-        group={{redmine_user}} 
+  file: path={{redmine_app_dir}}
+        owner=root
+        group={{redmine_group}}
         mode=0755
         recurse=yes
   when: redmine_app_dir_stat.stat.isdir is not defined
 
 - name: change owner of redmine log directory
-  file: path={{redmine_app_dir}}/log 
-        owner={{redmine_user}} 
-        group={{redmine_user}} 
+  file: path={{redmine_app_dir}}/log
+        owner={{redmine_user}}
+        group={{redmine_group}}
         mode=0755
         setype=httpd_log_t
   when: redmine_app_dir_stat.stat.isdir is not defined
 
 - name: change owner of redmine tmp directory
-  file: path={{redmine_app_dir}}/tmp 
-        owner={{redmine_user}} 
-        group={{redmine_user}} 
-        mode=0755 
+  file: path={{redmine_app_dir}}/tmp
+        owner={{redmine_user}}
+        group={{redmine_group}}
+        mode=0755
         recurse=yes
         setype=httpd_tmpfs_t
   when: redmine_app_dir_stat.stat.isdir is not defined
 
 - name: change owner of redmine files directory
   file: path={{redmine_app_dir}}/files
-        owner={{redmine_user}} 
-        group={{redmine_user}} 
-        mode=0755 
+        owner={{redmine_user}}
+        group={{redmine_group}}
+        mode=0755
         recurse=yes
         setype=httpd_sys_script_rw_t
   when: redmine_app_dir_stat.stat.isdir is not defined
 
 - name: change owner of redmine plugin assets directory
   file: path={{redmine_app_dir}}/public/plugin_assets
-        owner={{redmine_user}} 
-        group={{redmine_user}} 
-        mode=0755 
+        owner={{redmine_user}}
+        group={{redmine_group}}
+        mode=0755
         recurse=yes
         setype=httpd_sys_script_rw_t
   when: redmine_app_dir_stat.stat.isdir is not defined

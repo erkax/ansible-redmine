@@ -1,11 +1,11 @@
 ###########################################################################
-## Copy, configure and install redmine 
+## Copy, configure and install redmine
 ###########################################################################
 #first install required & usefull packages
 - name: install default package
   yum: name={{item}}  state=present
   with_flattened:
-        - zip 
+        - zip
         - unzip
         - libyaml-devel
         - zlib-devel

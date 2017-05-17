@@ -3,9 +3,9 @@
 # add redmine user
 #################################################################################
 - name: add sys user redmine (will run redmine)
-  user: name={{redmine_user}} 
-        system=yes 
-        state=present 
+  user: name={{redmine_user}}
+        system=yes
+        state=present
         home={{redmine_app_dir}}
         createhome=no
 - include: check_already_installed.yml
@@ -13,4 +13,4 @@
 - include: conf_redmine.yml
 - include: conf_ruby_env.yml
 - include: conf_apache.yml
-- include: security.yml 
+- include: security.yml
