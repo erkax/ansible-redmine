@@ -50,7 +50,7 @@ Including an example of how to use your role (for instance, with variables passe
       - { role: geerlingguy.mysql}
       - { role: rvm_io.rvm1-ruby, tags: ruby}
       - { role: geerlingguy.apache }
-      - { role: unamur.redmine}
+      - { role: erkax.redmine}
 
 License
 -------
