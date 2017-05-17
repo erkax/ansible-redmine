@@ -1,0 +1,41 @@
+
+#################################################################################
+# install required gem to run redmine
+#################################################################################
+- name: install gem bundler
+  gem: name={{item}} 
+       state=present
+       user_install=no
+       executable="/usr/local/bin/gem"
+       include_dependencies=yes
+       include_doc=no
+  with_items:
+      - bundler
+      - passenger
+
+- name: install gem for this ap application (bundle install)
+  shell: source /etc/profile.d/rvm.sh && /usr/local/rvm/bin/rvm default && bundle install 
+         executable="/bin/bash"
+         chdir={{redmine_app_dir}}
+  when: redmine_app_dir_stat.stat.isdir is not defined
+#  command: /usr/local/bin/bundle install chdir={{redmine_app_dir}}
+
+- name: install passenger apache2 module
+  shell: source /etc/profile.d/rvm.sh && /usr/local/rvm/bin/rvm default && passenger-install-apache2-module -a
+  args:
+      executable: /bin/bash
+  when: redmine_app_dir_stat.stat.isdir is not defined
+
+- name: generate secret token
+  shell: source /etc/profile.d/rvm.sh && /usr/local/rvm/bin/rvm default && rake generate_secret_token 
+         chdir={{redmine_app_dir}} 
+         executable="/bin/bash"
+  environment: redmine_rails_env
+  when: redmine_app_dir_stat.stat.isdir is not defined
+
+- name: migrate DB in production 
+  shell: source /etc/profile.d/rvm.sh && /usr/local/rvm/bin/rvm default && rake db:migrate 
+         chdir={{redmine_app_dir}}
+         executable="/bin/bash"
+  environment: redmine_rails_env
+  when: redmine_app_dir_stat.stat.isdir is not defined

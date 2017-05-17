@@ -1,0 +1,15 @@
+#################################################################################
+# get (clone) redmine from github
+#################################################################################
+- name: clone redmine from git
+  git: repo=https://github.com/redmine/redmine.git
+      dest={{redmine_app_dir}}
+      version=3.3.0
+  when: redmine_app_dir_stat.stat.isdir is not defined
+#################################################################################
+# configure redmine database
+#################################################################################
+- name: apply template to set the database config 
+  template: src=database.yml.jinja2 dest={{redmine_app_dir}}/config/database.yml
+  when: redmine_app_dir_stat.stat.isdir is not defined
+

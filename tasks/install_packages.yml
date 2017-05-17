@@ -1,0 +1,23 @@
+###########################################################################
+## Copy, configure and install redmine 
+###########################################################################
+#first install required & usefull packages
+- name: install default package
+  yum: name={{item}}  state=present
+  with_flattened:
+        - zip 
+        - unzip
+        - libyaml-devel
+        - zlib-devel
+        - curl-devel
+        - openssl-devel
+        - httpd-devel
+        - apr-devel
+        - apr-util-devel
+        - ImageMagick
+        - ImageMagick-devel
+        - sqlite-devel
+        - perl-LDAP
+        - mod_perl
+        - perl-Digest-SHA
+        - mariadb-devel

@@ -1,0 +1,58 @@
+#!/bin/bash
+#
+# passenger        Startup script for the passenger standalone server 
+#
+# chkconfig: - 85 15
+# description: The passenger standalone server 
+# processname: passenger
+# config: /etc/passenger/*.conf
+# pidfile: /opt/passenger/working/passenger-fd.9102.pid 
+#
+### BEGIN INIT INFO
+# Provides: passenger
+# Required-Start: $local_fs $remote_fs $network $named
+# Required-Stop: $local_fs $remote_fs $network
+# Should-Start: distcache
+# Short-Description: start and stop passenger client
+# Description: passenger  standalone server
+### END INIT INFO
+
+# default config
+USER=redmine
+APP_DIR=
+RVM_RUBY=default
+ADDR=127.0.0.1
+PORT=3000
+ENVIRONMENT=production
+APP_PASSENGER_CONFIG="/etc/passenger/redmine"
+
+if [ ! -r "$APP_PASSENGER_CONFIG" ]; then
+    echo "Error: Configuration 'Redmine' not found in /etc/passenger/" >&2
+    exit 4
+fi
+source "$APP_PASSENGER_CONFIG"
+if [ -z "$APP_DIR" ]; then
+    echo "Error: APP_DIR is not defined."
+    exit 5
+fi
+CMD_START="cd $APP_DIR; rvm use $RVM_RUBY; passenger start -a $ADDR -p $PORT -e $ENVIRONMENT -d"
+CMD_STOP="cd $APP_DIR; rvm use $RVM_RUBY; passenger stop -p $PORT"
+
+. /lib/lsb/init-functions
+case "$1" in
+  start)
+    echo "Starting passenger for Redmine"
+    echo "[$USER] $CMD_START"
+    su - $USER -c "$CMD_START"
+    ;;
+  stop)
+    echo "Stopping passenger for Redmine"
+    echo "[$USER] $CMD_STOP"
+    su - $USER -c "$CMD_STOP"
+    ;;
+  *)
+    echo "Usage: $0 start|stop [config]" >&2
+    exit 3
+    ;;
+esac
+

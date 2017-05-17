@@ -1,0 +1,56 @@
+################################################################################
+- name: change owner of redmine directory
+  file: path={{redmine_app_dir}} 
+        owner=root 
+        group={{redmine_user}} 
+        mode=0755
+        recurse=yes
+  when: redmine_app_dir_stat.stat.isdir is not defined
+
+- name: change owner of redmine log directory
+  file: path={{redmine_app_dir}}/log 
+        owner={{redmine_user}} 
+        group={{redmine_user}} 
+        mode=0755
+        setype=httpd_log_t
+  when: redmine_app_dir_stat.stat.isdir is not defined
+
+- name: change owner of redmine tmp directory
+  file: path={{redmine_app_dir}}/tmp 
+        owner={{redmine_user}} 
+        group={{redmine_user}} 
+        mode=0755 
+        recurse=yes
+        setype=httpd_tmpfs_t
+  when: redmine_app_dir_stat.stat.isdir is not defined
+
+- name: change owner of redmine files directory
+  file: path={{redmine_app_dir}}/files
+        owner={{redmine_user}} 
+        group={{redmine_user}} 
+        mode=0755 
+        recurse=yes
+        setype=httpd_sys_script_rw_t
+  when: redmine_app_dir_stat.stat.isdir is not defined
+
+- name: change owner of redmine plugin assets directory
+  file: path={{redmine_app_dir}}/public/plugin_assets
+        owner={{redmine_user}} 
+        group={{redmine_user}} 
+        mode=0755 
+        recurse=yes
+        setype=httpd_sys_script_rw_t
+  when: redmine_app_dir_stat.stat.isdir is not defined
+
+
+################################################################################
+- name: change a few selinux boolean value
+  seboolean: name={{item}}
+             state=yes
+             persistent=yes
+  with_flattened:
+      - httpd_run_stickshift
+      - httpd_can_connect_ldap
+      - httpd_can_sendmail
+      #- httpd_can_network_connect
+      #when: redmine_app_dir_stat.stat.isdir is not defined

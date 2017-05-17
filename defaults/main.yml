@@ -1,0 +1,8 @@
+---
+# defaults file for erkax.redmine
+#
+
+redmine_rails_env:
+    RAILS_ENV: 'production'
+redmine_app_dir: "/opt/redmine"
+redmine_user: "redmine"
