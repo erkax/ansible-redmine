@@ -37,6 +37,6 @@
   roles:
     - { role: geerlingguy.repo-epel }
     - { role: geerlingguy.mysql}
-    - { role: rvm_io.rvm1-ruby, tags: ruby}
+    - { role: rvm_io.ruby, tags: ruby}
     - { role: geerlingguy.apache }
     - role_under_test
