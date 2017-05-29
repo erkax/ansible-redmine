@@ -1,0 +1,5 @@
+---
+- src: geerlingguy.repo-epel
+- src: geerlingguy.apache
+- src: geerlingguy.mysql
+- src: rvm_io.rvm1-ruby

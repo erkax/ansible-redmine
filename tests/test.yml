@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - redmine
+    - role_under_test
