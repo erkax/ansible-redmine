@@ -2,7 +2,41 @@
 - hosts: localhost
   remote_user: root
   vars:
+    mysql_packages:
+      - mariadb
+      - mariadb-server
+      - mariadb-libs
+      - MySQL-python
+      - perl-DBD-MySQL
+
+    mysql_daemon: "mariadb"
+    mysql_log_error: "/var/log/mariadb/mariadb.log"
+    mysql_syslog_tag: "mariadb"
+    mysql_pid_file: "/var/run/mariadb/mariadb.pid"
+
+    ################################################################################
+    mysql_root_password: "test-root-Ohphaijae5vuf9aziec-root-test"
+    ################################################################################
+    redmine_db_prod_name: "redmine"
+    redmine_db_prod_username: "{{redmine_db_prod_name}}"
+    redmine_db_prod_password: "test-Ohphaijae5vuf9aziec-test"
+    redmine_db_prod_host: "localhost"
+    mysql_databases:
+      - name: "{{redmine_db_prod_name}}"
+        encoding: "utf8"
+        collation: "utf8_general_ci"
+
+    mysql_users:
+      - name: "{{redmine_db_prod_username}}"
+        host: "localhost"
+        password: "{{redmine_db_prod_password}}"
+        priv: "redmine_sec.*:ALL"
+
     rvm1_rubies:
       - 'ruby-2.2.2'
   roles:
+    - { role: geerlingguy.repo-epel }
+    - { role: geerlingguy.mysql}
+    - { role: rvm_io.rvm1-ruby, tags: ruby}
+    - { role: geerlingguy.apache }
     - role_under_test

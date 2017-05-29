@@ -21,3 +21,4 @@
         - mod_perl
         - perl-Digest-SHA
         - mariadb-devel
+        - git
